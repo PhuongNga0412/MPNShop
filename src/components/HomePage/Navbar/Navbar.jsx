@@ -2,91 +2,102 @@ import { IoMdSearch } from "react-icons/io";
 import { FaCartShopping } from "react-icons/fa6";
 import { FaCaretDown } from "react-icons/fa";
 import DarkMode from "./DarkMode";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useSearchStore } from "src/zustand/store";
 
 const MenuLinks = [
     {
         id: 1,
         name: "Home",
-        link: "/#",
+        link: "/",
     },
     {
         id: 2,
         name: "About",
-        link: "/#about",
+        link: "/about",
     },
     {
         id: 3,
         name: "Blogs",
-        link: "/#blog",
+        link: "/blog",
     },
 ];
 
-const DropdownLinks = [
-    {
-        id: 1,
-        name: "Smartphone",
-        link: "#",
-    },
-    {
-        id: 2,
-        name: "Laptop",
-        link: "#",
-    },
-    {
-        id: 3,
-        name: "Tablet",
-        link: "#",
-    },
-];
+// const DropdownLinks = [
+//     {
+//         id: 1,
+//         name: "Smartphone",
+//         link: "/product/smartphone",
+//     },
+//     {
+//         id: 2,
+//         name: "Laptop",
+//         link: "/product/laptop",
+//     },
+//     {
+//         id: 3,
+//         name: "Tablet",
+//         link: "/product/tablet",
+//     },
+// ];
 
 const Navbar = () => {
+    const { searchTerm, setSearchTerm } = useSearchStore();
+
+    const handleSearch = (event) => {
+        if (event.key === "Enter") {
+            setSearchTerm(event.target.value.trim());
+        }
+    };
+
     return (
         <div className="bg-white dark:bg-gray-900 dark:text-white duration-200 relative z-40">
             <div className="py-4">
                 <div className="container flex justify-between items-center">
                     <div className="flex items-center gap-4">
-                        <a
-                            href="#"
+                        <Link
+                            to="/"
                             className="text-primary font-semibold tracking-widest text-2xl uppercase sm:text-3xl"
                         >
                             MPNShop
-                        </a>
+                        </Link>
                         <div className="hidden lg:block">
                             <ul className="flex items-center gap-4">
                                 {MenuLinks.map((item) => (
                                     <li key={item.id}>
-                                        <a
-                                            href={item.link}
+                                        <Link
+                                            to={item.link}
                                             className="inline-block px-4 font-semibold text-gray-500 hover:text-black dark:hover:text-white duration-200"
                                         >
                                             {item.name}
-                                        </a>
+                                        </Link>
                                     </li>
                                 ))}
                                 <li className="relative cursor-pointer group ">
-                                    <a
-                                        href="#"
+                                    <Link
+                                        to="product"
                                         className="flex items-center gap-[2px] font-semibold text-gray-500 dark:hover:text-white py-2"
                                     >
                                         Products
-                                        <span>
+                                        {/* <span>
                                             <FaCaretDown className="group-hover:rotate-180 duration-300" />
-                                        </span>
-                                    </a>
-                                    <div className="absolute z-[9999] hidden group-hover:block w-[200px] rounded-md bg-white shadow-md dark:bg-gray-900 p-2 text-black dark:text-white ">
+                                        </span> */}
+                                    </Link>
+                                    {/* <div className="absolute z-[9999] hidden group-hover:block w-[200px] rounded-md bg-white shadow-md dark:bg-gray-900 p-2 text-black dark:text-white ">
                                         <ul className="space-y-2 ">
                                             {DropdownLinks.map((item) => (
                                                 <li key={item.id}>
-                                                    <a
-                                                        href={item.link}
+                                                    <Link
+                                                        to={item.link}
                                                         className="text-gray-500 dark:hover:text-white duration-200 inline-block w-full p-2 hover:bg-primary/20 rounded-md font-semibold"
                                                     >
                                                         {item.name}
-                                                    </a>
+                                                    </Link>
                                                 </li>
                                             ))}
                                         </ul>
-                                    </div>
+                                    </div> */}
                                 </li>
                             </ul>
                         </div>
@@ -97,6 +108,11 @@ const Navbar = () => {
                                 type="text"
                                 placeholder="Search"
                                 className="search-bar"
+                                value={searchTerm}
+                                onChange={(event) =>
+                                    setSearchTerm(event.target.value)
+                                }
+                                onKeyDown={handleSearch}
                             />
                             <IoMdSearch className="text-xl text-gray-600 group-hover:text-primary dark:text-gray-400 absolute top-1/2 -translate-y-1/2 right-3 duration-200" />
                         </div>

@@ -1,4 +1,4 @@
-import Button from "components/Shared/Button";
+import Button from "src/components/HomePage/Shared/Button";
 import Img1 from "src/assets/img/category/earphone.webp";
 import Img2 from "src/assets/img/category/laptop.webp";
 import Img4 from "src/assets/img/category/watch.webp";
