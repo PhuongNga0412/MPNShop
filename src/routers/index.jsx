@@ -4,6 +4,9 @@ import Products from "src/components/Products/Products";
 import LayoutRoot from "src/layouts/LayoutRoot";
 import PageNotFound from "src/components/PageNotFound/PageNotFound";
 import ProductDetail from "src/components/Products/ProductDetail";
+import Cart from "src/components/Cart/Cart";
+import Blog from "src/components/Blogs/Blog";
+import About from "src/components/About/About";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +35,18 @@ const router = createBrowserRouter([
                     const product = await response.json();
                     return { product };
                 },
+            },
+            {
+                path: "/cart",
+                element: <Cart />,
+            },
+            {
+                path: "blog",
+                element: <Blog />,
+            },
+            {
+                path: "about",
+                element: <About />,
             },
         ],
     },

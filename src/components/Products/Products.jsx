@@ -7,8 +7,7 @@ import { useProductStore, useSearchStore } from "src/zustand/store";
 const Products = () => {
     const { products, fetch, loading, hasErrors } = useProductStore();
     const { searchTerm } = useSearchStore();
-    const [pageCount, setPageCount] = useState(1);
-    const [sort, setSort] = useState(null);
+    const [sort, setSort] = useState();
     const [checked, setChecked] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const itemsPerPage = 9;
@@ -31,6 +30,10 @@ const Products = () => {
 
     const handlePageClick = (data) => {
         setCurrentPage(data.selected);
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
     };
 
     const handleSortChange = (event) => {

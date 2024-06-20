@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const DarkMode = () => {
-    const [theme, setTheme] = useState("light");
+    const [theme, setTheme] = useState(
+        localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
+    );
+
+    useEffect(() => {
+        localStorage.setItem("theme", theme);
+        document.body.className = theme;
+    }, [theme]);
 
     const toggleTheme = () => {
         const newTheme = theme === "light" ? "dark" : "light";
         setTheme(newTheme);
-        // Cập nhật lớp CSS của body để áp dụng theme mới
-        document.body.className = newTheme;
     };
 
     return (

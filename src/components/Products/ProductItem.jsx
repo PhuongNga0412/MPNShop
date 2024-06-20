@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
+import useCartStore from "src/zustand/useCartStore";
 
 const ProductItem = ({ item }) => {
+    const { addToCart } = useCartStore((state) => state);
+    const handleAddCart = (product) => {
+        addToCart(product);
+    };
+
     return (
         <div className="group mb-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md dark:bg-gray-800 dark:border-gray-700">
             <Link
@@ -61,9 +67,9 @@ const ProductItem = ({ item }) => {
                         </span>
                     </p>
                 </div>
-                <a
-                    href="#"
-                    className="flex items-center justify-center rounded-md bg-primary px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary/70 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                <button
+                    onClick={() => handleAddCart(item)}
+                    className="flex w-full items-center justify-center rounded-md bg-primary px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary/70 focus:outline-none focus:ring-4 focus:ring-blue-300"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +86,7 @@ const ProductItem = ({ item }) => {
                         />
                     </svg>
                     Add to cart
-                </a>
+                </button>
             </div>
         </div>
     );

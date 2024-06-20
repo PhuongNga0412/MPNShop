@@ -6,17 +6,24 @@ import { MdAddShoppingCart } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa";
 import { FaTwitter, FaYoutube } from "react-icons/fa";
 import { useState } from "react";
+import useCartStore from "src/zustand/useCartStore";
 
 const ProductDetail = ({ initialRating }) => {
     const { product } = useLoaderData();
-    console.log(product);
-    const [quantity, setQuantity] = useState(0);
+    const { addToCart } = useCartStore((state) => state);
+    const [count, setCount] = useState(1);
     const [rating, setRating] = useState(initialRating);
     const [selectedImg, setSelectedImg] = useState(product?.images?.[0]);
 
     const handleStarClick = (index) => {
         setRating(index + 1);
     };
+
+    const handleAddCart = () => {
+        addToCart(product, count);
+        console.log(count);
+    };
+
     return (
         <div className="container py-8">
             <section className="page-wrapper">
@@ -24,9 +31,8 @@ const ProductDetail = ({ initialRating }) => {
                     <div className="lg:w-1/2 w-full flex md:flex-row flex-col gap-[10px]">
                         <div className="flex md:flex-col md:justify-between sm:flex-row">
                             {product?.images?.map((item, index) => (
-                                <div>
+                                <div key={index}>
                                     <img
-                                        key={index}
                                         src={item}
                                         alt="Name"
                                         onClick={() => setSelectedImg(item)}
@@ -56,7 +62,7 @@ const ProductDetail = ({ initialRating }) => {
                                         key={index}
                                         xmlns="http://www.w3.org/2000/svg"
                                         className={`h-6 w-6 ${
-                                            index < rating
+                                            index < product.rating
                                                 ? "text-yellow-400"
                                                 : "text-gray-300"
                                         }`}
@@ -95,33 +101,32 @@ const ProductDetail = ({ initialRating }) => {
                             <span className="text-sm">Qty:</span>
                             <div className="flex items-center">
                                 <button
-                                    onClick={() =>
-                                        setQuantity((prev) => prev + 1)
-                                    }
-                                    className="border border-gray w-10 h-10 mx-auto transition-colors hover:text-primary"
-                                >
-                                    <GoPlus className="w-full" />
-                                </button>
-                                <span className="border-y border-gray block w-10 h-10 text-center leading-10 text-sm">
-                                    {quantity}
-                                </span>
-                                <button
                                     onClick={() => {
-                                        if (quantity >= 1) {
-                                            setQuantity((prev) => prev - 1);
+                                        if (count >= 1) {
+                                            setCount((prev) => prev - 1);
                                         }
                                     }}
-                                    disabled={quantity < 1}
+                                    disabled={count <= 1}
                                     className="border border-gray w-10 h-10 transition-colors hover:text-primary"
                                 >
                                     <HiOutlineMinusSmall className="w-full" />
+                                </button>
+                                <span className="border-y border-gray block w-10 h-10 text-center leading-10 text-sm">
+                                    {count}
+                                </span>
+
+                                <button
+                                    onClick={() => setCount((prev) => prev + 1)}
+                                    className="border border-gray w-10 h-10 mx-auto transition-colors hover:text-primary"
+                                >
+                                    <GoPlus className="w-full" />
                                 </button>
                             </div>
                         </div>
 
                         <div className="flex lg:flex-row flex-col items-center gap-5 mb-[30px]">
                             <button
-                                // onClick={() => handleAddToCart(data)}
+                                onClick={handleAddCart}
                                 className="flex items-center gap-2 transition-colors hover:bg-primary hover:text-white capitalize justify-center py-[10px] px-[15px] text-[16px] font-light min-w-[198px] border border-gray"
                             >
                                 <MdAddShoppingCart /> Add to cart

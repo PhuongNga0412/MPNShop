@@ -54,3 +54,7 @@ const Products = () => {
     );
 };
 export default Products;
+
+// export const formatMoney = (money: number) => {
+//     return money?.toLocaleString('vi', { style: 'currency', currency: 'VND' });
+//   };
